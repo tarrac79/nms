@@ -1,7 +1,0 @@
-2020-10-12 13:52:45 - INFO - {"request": {"action": "search", "find": {"object": "stationroute", "where": {"addr": "172.18.200.89"}}}}
-2020-10-12 13:52:46 - ERROR - RequestException when connecting with url: `htts://192.168.150.107/jsonapi/`, error: `No connection adapters were found for 'htts://192.168.150.107/jsonapi/'`
-2020-10-12 13:53:39 - INFO - {"request": {"action": "search", "find": {"object": "stationroute", "where": {"addr": "172.18.200.89"}}}}
-2020-10-12 13:53:41 - ERROR - RequestException when connecting with url: `https://192.168.150.107/jsonapi/`, error: `HTTPSConnectionPool(host='192.168.150.107', port=443): Max retries exceeded with url: /jsonapi/?token=adminEastar&out=json (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x000001C6A5A60E80>: Failed to establish a new connection: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение'))`
-2020-10-12 13:53:50 - INFO - {"request": {"action": "search", "find": {"object": "stationroute", "where": {"addr": "172.18.200.89"}}}}
-2020-10-12 13:53:50 - INFO - {"request": {"action": "search", "find": {"object": "stationroute", "where": {"remote_id": 3172, "addr": "0.0.0.0"}}}}
-2020-10-12 13:53:51 - INFO - {"request": {"action": "search", "find": {"object": "policyrule", "where": {"policy_id": 426}}}}
