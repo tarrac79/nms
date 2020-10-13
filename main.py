@@ -4,7 +4,7 @@
 import logging.config
 from settings import logger_config
 from json import load as load_config
-from json import dumps
+from sys import argv
 
 # Импортируем необходжимые классы
 from nms_core.station import StationController      # для работы со станциями
@@ -46,31 +46,12 @@ def main():
     policy_rule = PolicyRuleController(base_url=config["url"], login=config["login"], password=config["password"])
     try:
 
-        route_addr = '172.18.200.89'
+        route_addr = argv[0]
         id_station = route.search(addr=route_addr)[0].remote_id
         polycy_station = route.search(remote_id=id_station, addr='0.0.0.0')[0].policy_id
 
         for i in policy_rule.search(policy_id=polycy_station):
             print(pre_policy(i).to_dict())
-
-        # print(policy_rule.search(id=37699))
-        # for i in policy_rule.search(policy_id=27):
-        #     print(i)
-
-        # for i in range(37699, 37710):
-        #     try:
-        #         print(policy_rule.select(i))  # test select
-        #     except Exception:
-        #         continue
-
-        # print(policy_rule.select(37258))  # test select
-
-        # print(route.select(22752))
-
-
-
-
-
 
     except ApiError as e:
         print( e.message)
