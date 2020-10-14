@@ -4,7 +4,7 @@
 from dataclasses import dataclass
 from enum import Enum
 
-from typing import List, Generic, Optional, Union
+from typing import List, Generic, Optional, Union, Any
 
 from nms_core.base_api import RT
 from nms_core.models.main_class import MainClass
@@ -71,9 +71,8 @@ class PolicyRuleCheck(PolicyRule):
     to: str
     flag_invert: str
     equal: str
-    enc_num: str
-    set_tos: str
-    set_dscp: str
+
+
     ip_address: str
     mask: str
     check_type: Optional[str]
@@ -83,17 +82,20 @@ class PolicyRuleCheck(PolicyRule):
     action_type: str
     flag_last_action: int
     flag_last_check: int
-    call_policy: int
-    goto_policy: int
+
     acm_channel: int
     ts_stream: int
     protocol_type: int
-
+    enc_num: Optional[str] = ''
+    set_tos: Optional[str] = ''
+    set_dscp: Optional[str] = ''
+    call_policy: Optional[int] = 0
+    goto_policy: Optional[int] = 0
 @dataclass
 class PolicyRuleAction(PolicyRuleCheck):
-    start_num_mask: str
-    end:str
-    addr: str
+    start_num_mask: Optional[str] = ''
+    end: Optional[str] = ''
+    addr: Optional[str] = ''
 
 
 
