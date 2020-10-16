@@ -15,7 +15,7 @@ from nms_core.polyrule import PolicyRuleController
 from nms_core.models.policyrule import ActionPolitic, CheckPolitic, PolicyRuleCheck
 from sys import argv
 
-from nms_core.preparce_policy_rule import pre_policy, ProtocolType
+# from nms_core.preparce_policy_rule import pre_policy, ProtocolType
 from os import path
 
 from nms_core.api import ApiError
@@ -49,8 +49,8 @@ def main():
     policy_rule = PolicyRuleController(base_url=config["url"], login=config["login"], password=config["password"])
     try:
 
-        route_addr = argv[1]
-        # route_addr = '10.241.226.1'
+        # route_addr = argv[1]
+        route_addr = '10.241.226.1'
         id_station = route.search(addr=route_addr)[0].remote_id
         polycy_station = route.search(remote_id=id_station, addr='0.0.0.0')[0].policy_id
 

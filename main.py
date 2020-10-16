@@ -14,7 +14,7 @@ from nms_core.policy import PolicyController  # для работы со ста�
 from nms_core.polyrule import PolicyRuleController
 from nms_core.models.policyrule import ActionPolitic, CheckPolitic, PolicyRuleCheck
 
-from nms_core.preparce_policy_rule import pre_policy, ProtocolType
+# from nms_core.preparce_policy_rule import pre_policy, ProtocolType
 from os import path
 
 from nms_core.api import ApiError
@@ -32,7 +32,7 @@ logger.setLevel("INFO")
 # DEBUG		10
 # NOTSET		0
 # logger.setLevel("INFO")
-logger.setLevel("INFO")
+# logger.setLevel("INFO")
 
 
 def main():
@@ -52,39 +52,12 @@ def main():
         id_station = route.search(addr=route_addr)[0].remote_id
         polycy_station = route.search(remote_id=id_station, addr='0.0.0.0')[0].policy_id
 
-        keys_check = ['invert', 'flag', 'from_', 'to', 'flag_invert', 'equal', 'protocol_type',
-                      'ip_address', 'mask', 'flag_last_check']
-        keys_actions = [ 'set_tos', 'set_dscp', 'enc_num', 'ts_queue', 'ts_stream', 'acm_channel',
-                        'goto_policy', 'call_policy', 'flag_last_action']
-        for i in sorted(policy_rule.search(policy_id=polycy_station), key=lambda x:x.order_num):
-            i = pre_policy(i)
-
-            if i.action == 'CHECK':
-
-                # if i.check_type == 'CHT_PROTOCOL':
-                #     print(i.to_dict())
-                # continue
-                name = i.check_type
-                post_name = ' '.join(map(str.capitalize, name.split('_')[1:]))
-                inv = "not " if i.flag == '8192' else ''
-                if name in ['CHT_802_1Q_PRIORITY', 'CHT_ICMP_TYPE']:
-                    print(f'{i.action}: {post_name} is {inv}equal to {i.value1} ' )
-                if name in [ 'CHT_PROTOCOL']:
-                    print(f'{i.action}: {post_name} is {inv}equal to {ProtocolType(i.protocol_type).name} ')
-                if name in ['CHT_VLAN_NUMBER', 'CHT_TOS', 'CHT_DSCP',]:
-                    print(f'{i.action}: {post_name} is from {inv}{i.value1} to {i.value2} ')
-                if name in ['CHT_SOURCE_IP_NETWORK', 'CHT_DESTINATION_IP_NETWORK']:
-                    print(f'{i.action}: {post_name} is {inv}{i.value1}/{i.value2} ')
-                if name in [ 'CHT_SOURCE_TCP_PORT', 'CHT_DESTINATION_TCP_PORT', 'CHT_SOURCE_UDP_PORT', 'CHT_DESTINATION_UDP_PORT']:
-                    print(f'{i.action}: {post_name} port is {inv}{i.value1} to {i.value2}')
-            else:
-                name = i.action_type
-                post_name = ' '.join(map(str.capitalize, name.split('_')[1:]))
-                print(f'-> {i.action}: {post_name}')
-
-            if i.flag_last_action == 1:
-                break
-
+        next_action = False
+        for poly in sorted(policy_rule.search(policy_id=polycy_station), key=lambda x:x.order_num):
+            if poly.type == 1:
+                print(poly)
+                exit()
+            continue
 
     except ApiError as e:
         print(e.message)

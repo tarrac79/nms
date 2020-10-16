@@ -3,11 +3,25 @@
 
 from dataclasses import dataclass
 from enum import Enum
-
-from typing import List, Generic, Optional, Union, Any
+from typing import List, Generic, Optional, Union, Any, Iterable
 
 from nms_core.base_api import RT
 from nms_core.models.main_class import MainClass
+
+polyrule_format = {
+
+}
+
+class ProtocolType(Enum):
+    NONE = 0
+    ICMP = 1
+    IGMP = 2
+
+
+class Action(Enum):
+    CHECK = 0
+    ACTION = 1
+
 
 class ActionPolitic(Enum):
     ACT_DROP_PACKET = 17
@@ -42,7 +56,6 @@ class CheckPolitic(Enum):
     CHT_IP_PRECEDENCE_TYPE = 13
 
 
-
 @dataclass
 class Politic(MainClass):
     id: int
@@ -53,56 +66,55 @@ class Politic(MainClass):
     public: str
 
 
-
 @dataclass
 class PolicyRule(MainClass):
     order_num: int
     type: int
-    id: int
     policy_id: str
-    value1: Union[str, int]
-    value2: Union[str, int]
+    value1: Union[int, str]
+    value2: Union[int, str]
+
 
 @dataclass
 class PolicyRuleCheck(PolicyRule):
-    invert: str
-    flag: str
-    from_: str
-    to: str
-    flag_invert: str
-    equal: str
-
-
+    '''
+    датакласс политики типа Проверка (Check)
+    '''
+    check_type: int
+    invert: Union[int, str]
+    flag: int
+    from_: int
+    to: int
+    flag_invert: int
+    equal: int
+    protocol_type: int
     ip_address: str
     mask: str
-    check_type: Optional[str]
-    action: Optional[str]
-    action_type: Optional[str]
-    ts_queue: int
-    action_type: str
-    flag_last_action: int
     flag_last_check: int
 
-    acm_channel: int
-    ts_stream: int
-    protocol_type: int
-    enc_num: Optional[str] = ''
-    set_tos: Optional[str] = ''
-    set_dscp: Optional[str] = ''
-    call_policy: Optional[int] = 0
-    goto_policy: Optional[int] = 0
+    def to_str(self):
+        pass
+
+
 @dataclass
-class PolicyRuleAction(PolicyRuleCheck):
-    start_num_mask: Optional[str] = ''
-    end: Optional[str] = ''
-    addr: Optional[str] = ''
+class PolicyRuleAction(PolicyRule):
+    '''
+        датакласс политики типа Действие (Action)
+    '''
+    action: int
+    action_type: int
+    ts_queue: int
+    ts_stream: int
+    enc_num: int
+    set_tos: int
+    set_dscp: int
+    acm_channel: int
+    call_policy: int
+    goto_policy: int
+    flag_last_action: int
 
-
-
-
-
-
-
+    def to_str(self):
+        print(self.action_type)
 
 
 @dataclass
@@ -113,3 +125,17 @@ class DictPolicyRule(Generic[RT]):
 @dataclass
 class DictPolicyRuleExtended(Generic[RT]):
     item: List[PolicyRuleAction]
+
+
+if __name__ == '__main__':
+    check = PolicyRuleCheck(order_num=2, type=1, policy_id='426', value1=0, value2='', check_type=1, invert=0, flag=0,
+                            from_=0, to=0, flag_invert=0, equal=0, protocol_type=0, ip_address='0.0.0.0', mask='0',
+                            flag_last_check=0)
+
+    action = PolicyRuleAction(order_num=15, type=17, policy_id=426, value1='', value2='', action=1, action_type=17,
+                              ts_queue=0,
+                              ts_stream=0, enc_num=1, set_tos=0, set_dscp=0, acm_channel=0, call_policy=0,
+                              goto_policy=0,
+                              flag_last_action=1)
+
+    print(action)
